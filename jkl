@@ -1,5 +1,5 @@
 #!/bin/bash
-versio="v1.2"
+versio="v0.3"
 clear
 printf "\033[33mJKL - Entrenament Mental $versio by holalluis (github.com/holalluis)\033[0m\n\n"
 printf "\033[32mInstruccions:\033[0m prem les tecles [j],[k],[l] per resoldre les operacions\n\n"
@@ -7,8 +7,9 @@ read -p ">> Quantes operacions vols fer? " objectiu
 score=0
 temps_inicial=$(date +%s)
 printf "\033[36mFes $objectiu operacions tant ràpid com puguis\033[0m\n"
-while (:)
-do
+
+#inici bucle infinit
+while (:); do
   # genera dos operands; $RANDOM va de 0 a 32767
   n1=$((RANDOM/3276))
   n2=$((RANDOM/3276))
@@ -34,7 +35,7 @@ do
     5) tecla1=$o3; tecla2=$o2; tecla3=$o1 ;;
   esac
   # mostra la suma i les 3 opcions
-  echo -n -e ">> $n1$op$n2 = |\t$tecla1 $tecla2 $tecla3\t| "
+  echo -n -e ">> $n1$op$n2 = | $tecla1 $tecla2 $tecla3 | "
   # llegeix una tecla
   read -n1 tecla
   # genera un resultat d'acord amb la tecla premuda
@@ -84,5 +85,6 @@ do
       break
     fi
   fi
-done
+done #fi bucle infinit
+
 echo 
