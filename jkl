@@ -1,0 +1,88 @@
+#!/bin/bash
+versio="v1.2"
+clear
+printf "\033[33mJKL - Entrenament Mental $versio by holalluis (github.com/holalluis)\033[0m\n\n"
+printf "\033[32mInstruccions:\033[0m prem les tecles [j],[k],[l] per resoldre les operacions\n\n"
+read -p ">> Quantes operacions vols fer? " objectiu
+score=0
+temps_inicial=$(date +%s)
+printf "\033[36mFes $objectiu operacions tant ràpid com puguis\033[0m\n"
+while (:)
+do
+  # genera dos operands; $RANDOM va de 0 a 32767
+  n1=$((RANDOM/3276))
+  n2=$((RANDOM/3276))
+  # suma, resta o multiplicacio aleatori
+  operacio=$((RANDOM/10923))
+  case $operacio in
+    0) op=\+ ;;
+    1) op=\- ;;
+    2) op=\* ;;
+  esac
+  # 3 opcions per resposta
+  o1=$(($n1 $op $n2)) # la bona
+  o2=$((o1+1))
+  o3=$((o1-1))
+  # 3! = 6 maneres d'ordenar (nombre aleatori del 0 al 5)
+  ordre=$(($RANDOM/5470))
+  case $ordre in 
+    0) tecla1=$o1; tecla2=$o2; tecla3=$o3 ;;
+    1) tecla1=$o1; tecla2=$o3; tecla3=$o2 ;;
+    2) tecla1=$o2; tecla2=$o1; tecla3=$o3 ;;
+    3) tecla1=$o2; tecla2=$o3; tecla3=$o1 ;;
+    4) tecla1=$o3; tecla2=$o1; tecla3=$o2 ;;
+    5) tecla1=$o3; tecla2=$o2; tecla3=$o1 ;;
+  esac
+  # mostra la suma i les 3 opcions
+  echo -n -e ">> $n1$op$n2 = |\t$tecla1 $tecla2 $tecla3\t| "
+  # llegeix una tecla
+  read -n1 tecla
+  # genera un resultat d'acord amb la tecla premuda
+  case $tecla in
+    j) resultat=$tecla1 ;;
+    k) resultat=$tecla2 ;;
+    l) resultat=$tecla3 ;;
+    *) printf "\033[D\n>> Prem J,K,L per respondre!!\n"; break ;;
+  esac
+  # tira un caràcter a l'esquerra per esborrar l'input
+  printf "\033[D";
+  # comprova el resultat
+  if (($resultat==$o1 ))
+    then printf "\033[32m√\033[0m "
+    ((score++))
+    if (($score==$objectiu))
+      then  
+      temps_final=$(date +%s)
+      temps_total=$((temps_final-temps_inicial))
+      echo "Repte superat! ($objectiu operacions en $temps_total s)"
+      echo
+      read -p "Començar de nou? ( [j]=si, [Enter]=no ) " restart
+      if [[ $restart == "j" ]]
+        then 
+        score=0
+        read -p ">> Quantes operacions vols fer? " objectiu
+        temps_inicial=$(date +%s)
+        printf "\033[36mFes $objectiu operacions tant ràpid com puguis\033[0m\n"
+        continue
+      else
+        break
+      fi
+    fi
+    echo
+  else
+    # si falles
+    printf "\033[31mX\033[0m Score: $score/$objectiu \n\n"
+    read -p "Reintentar? ( [j]=si, [Enter]=no ) " reintentar
+    if [[ $reintentar == "j" ]]
+      then score=0
+      temps_inicial=$(date +%s)
+      echo
+      printf "\033[36mFes $objectiu operacions tant ràpid com puguis\033[0m\n"
+      continue
+    else
+      #si no prem j
+      break
+    fi
+  fi
+done
+echo 
