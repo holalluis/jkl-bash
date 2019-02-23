@@ -1,7 +1,10 @@
 # jkl-bash
 
-[ENG] simple math game for shell
-[CAT] joc matemàtic senzill per línia de comanda
+## CAT
+joc matemàtic senzill per línia de comanda (bash, zsh, etc)
+
+## ENG 
+simple math game for shell (bash, zsh, etc)
 
 # install and run
 
